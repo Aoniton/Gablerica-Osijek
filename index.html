@@ -144,6 +144,12 @@
             list-style: none;
             gap: 2rem;
             margin: 0 0 0 3rem;
+            align-items: center;
+        }
+
+        .nav-menu li {
+            display: flex;
+            align-items: center;
         }
 
         .nav-menu a {
@@ -205,6 +211,9 @@
         .lang-switcher {
             display: flex;
             gap: 0.5rem;
+        }
+
+        .nav-lang {
             margin-left: 1.5rem;
         }
 
@@ -233,6 +242,8 @@
             gap: 5px;
             cursor: pointer;
             padding: 10px;
+            border: none;
+            background: transparent;
         }
 
         .mobile-toggle span {
@@ -887,15 +898,41 @@
             .nav-phone-text {
                 font-size: 0.85rem;
             }
-        }
 
-        @media (max-width: 768px) {
             .nav-container {
                 padding: 1rem 20px;
+                position: relative;
             }
 
             .nav-menu {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
                 display: none;
+                flex-direction: column;
+                gap: 1rem;
+                margin: 0;
+                padding: 1.5rem 20px 2rem;
+                background: rgba(255, 255, 255, 0.97);
+                box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+                border-radius: 12px;
+                align-items: flex-start;
+                z-index: 1000;
+            }
+
+            .nav-container.nav-open .nav-menu {
+                display: flex;
+            }
+
+            .nav-menu li {
+                width: 100%;
+            }
+
+            .nav-menu a {
+                width: 100%;
+                font-size: 1.05rem;
+                padding: 0.5rem 0;
             }
 
             .nav-right {
@@ -908,22 +945,32 @@
                 font-size: 0.85rem;
             }
 
+            .mobile-toggle {
+                display: flex;
+                order: -1;
+                margin-right: 1rem;
+            }
+
+            .nav-lang {
+                margin-left: 0;
+                padding-top: 1rem;
+                border-top: 1px solid rgba(122, 139, 110, 0.2);
+                width: 100%;
+            }
+
+            .lang-switcher {
+                width: 100%;
+                justify-content: flex-start;
+            }
+        }
+
+        @media (max-width: 768px) {
             .nav-phone-text {
                 display: none;
             }
 
             .nav-phone-icon {
                 font-size: 1.2rem;
-            }
-
-            .lang-switcher {
-                margin-left: 0;
-            }
-
-            .mobile-toggle {
-                display: flex;
-                order: -1;
-                margin-right: 1rem;
             }
 
             h1 { font-size: 2.5rem; }
@@ -991,12 +1038,18 @@
                 </div>
             </div>
             
-            <ul class="nav-menu">
+            <ul class="nav-menu" id="primary-navigation" aria-hidden="true">
                 <li><a href="#naslovna">Naslovna</a></li>
                 <li><a href="#tjedni-specijaliteti">Tjedni Specijaliteti</a></li>
                 <li><a href="#meni">Meni</a></li>
                 <li><a href="#o-nama">O Nama</a></li>
                 <li><a href="#kontakt">Kontakt</a></li>
+                <li class="nav-lang">
+                    <div class="lang-switcher">
+                        <button class="lang-btn active">HR</button>
+                        <button class="lang-btn">EN</button>
+                    </div>
+                </li>
             </ul>
 
             <div class="nav-right">
@@ -1004,18 +1057,13 @@
                     <span class="nav-phone-icon">📞</span>
                     <span class="nav-phone-text">095 5356 267</span>
                 </a>
-
-                <div class="lang-switcher">
-                    <button class="lang-btn active">HR</button>
-                    <button class="lang-btn">EN</button>
-                </div>
             </div>
 
-            <div class="mobile-toggle">
+            <button class="mobile-toggle" aria-controls="primary-navigation" aria-expanded="false">
                 <span></span>
                 <span></span>
                 <span></span>
-            </div>
+            </button>
         </nav>
     </header>
 
@@ -1333,11 +1381,44 @@
         // Mobile menu toggle
         const mobileToggle = document.querySelector('.mobile-toggle');
         const navMenu = document.querySelector('.nav-menu');
+        const navContainer = document.querySelector('.nav-container');
         
-        if (mobileToggle) {
+        if (mobileToggle && navMenu && navContainer) {
+            const navLinks = navMenu.querySelectorAll('a');
+
+            const breakpoint = 1024;
+
+            const updateNavAccessibility = () => {
+                if (window.innerWidth > breakpoint) {
+                    navMenu.setAttribute('aria-hidden', 'false');
+                    mobileToggle.setAttribute('aria-expanded', 'false');
+                    navContainer.classList.remove('nav-open');
+                } else {
+                    const isOpen = navContainer.classList.contains('nav-open');
+                    navMenu.setAttribute('aria-hidden', (!isOpen).toString());
+                    mobileToggle.setAttribute('aria-expanded', isOpen.toString());
+                }
+            };
+
+            updateNavAccessibility();
+
             mobileToggle.addEventListener('click', () => {
-                navMenu.style.display = navMenu.style.display === 'flex' ? 'none' : 'flex';
+                const isOpen = navContainer.classList.toggle('nav-open');
+                mobileToggle.setAttribute('aria-expanded', isOpen);
+                navMenu.setAttribute('aria-hidden', (!isOpen).toString());
             });
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    if (window.innerWidth <= breakpoint && navContainer.classList.contains('nav-open')) {
+                        navContainer.classList.remove('nav-open');
+                        mobileToggle.setAttribute('aria-expanded', 'false');
+                        navMenu.setAttribute('aria-hidden', 'true');
+                    }
+                });
+            });
+
+            window.addEventListener('resize', updateNavAccessibility);
         }
 
         // Language switcher functionality (placeholder)
