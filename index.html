@@ -2,7 +2,7 @@
 <html lang="hr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <title>Gablerica - Domaća Kuhinja | Topli Obroci Svaki Dan</title>
     <meta name="description" content="Gablerica - Autentična domaća kuhinja u Osijeku. Topli obroci pripremljeni s ljubavlju, svaki dan nove poslastice. Naručite odmah!">
     
@@ -108,17 +108,6 @@
             gap: 1rem;
             flex-shrink: 0;
             min-width: 200px;
-            text-decoration: none;
-            color: inherit;
-        }
-
-        .logo-group:focus {
-            outline: none;
-        }
-
-        .logo-group h1,
-        .logo-group p {
-            margin: 0;
         }
 
         .logo-icon {
@@ -155,12 +144,6 @@
             list-style: none;
             gap: 2rem;
             margin: 0 0 0 3rem;
-            align-items: center;
-        }
-
-        .nav-menu li {
-            display: flex;
-            align-items: center;
         }
 
         .nav-menu a {
@@ -222,9 +205,6 @@
         .lang-switcher {
             display: flex;
             gap: 0.5rem;
-        }
-
-        .nav-lang {
             margin-left: 1.5rem;
         }
 
@@ -252,22 +232,160 @@
             flex-direction: column;
             gap: 5px;
             cursor: pointer;
-            padding: 10px;
-            border: none;
+            padding: 12px;
+            z-index: 1001;
+            -webkit-tap-highlight-color: transparent;
             background: transparent;
+            border: none;
+            border-radius: 4px;
+            transition: background 0.2s ease;
+        }
+
+        .mobile-toggle:active {
+            background: rgba(0, 0, 0, 0.05);
         }
 
         .mobile-toggle span {
-            width: 25px;
+            width: 26px;
             height: 3px;
             background: var(--text-dark);
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             border-radius: 3px;
         }
 
-        .mobile-toggle:focus {
-            outline: none;
-            box-shadow: none;
+        .mobile-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(8px, 8px);
+        }
+
+        .mobile-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .mobile-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -7px);
+        }
+
+        /* Prevent body scroll when mobile menu is open */
+        body.menu-open {
+            overflow: hidden;
+            position: fixed;
+            width: 100%;
+        }
+
+        /* Mobile Menu Overlay */
+        .mobile-menu-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .mobile-menu-overlay.active {
+            display: block;
+            opacity: 1;
+        }
+
+        /* Mobile Menu Container */
+        .mobile-menu-container {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 85%;
+            max-width: 350px;
+            height: 100vh;
+            height: 100dvh; /* Dynamic viewport height for mobile browsers */
+            background: white;
+            z-index: 1000;
+            transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+            box-shadow: -2px 0 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .mobile-menu-container.active {
+            right: 0;
+        }
+
+        .mobile-menu-header {
+            padding: 2rem 1.5rem;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .mobile-menu-header .logo-icon {
+            width: 40px;
+            height: 40px;
+            font-size: 20px;
+        }
+
+        .mobile-menu-header h2 {
+            font-size: 1.5rem;
+            color: var(--primary-gold);
+            font-family: var(--font-heading);
+            font-style: italic;
+        }
+
+        .mobile-menu-links {
+            list-style: none;
+            padding: 1rem 0;
+        }
+
+        .mobile-menu-links li {
+            border-bottom: 1px solid #eee;
+        }
+
+        .mobile-menu-links a {
+            display: block;
+            padding: 1.2rem 1.5rem;
+            color: var(--text-dark);
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            -webkit-tap-highlight-color: transparent;
+            min-height: 48px; /* Ensure minimum touch target size */
+            display: flex;
+            align-items: center;
+        }
+
+        .mobile-menu-links a:active {
+            background: var(--primary-gold);
+            color: white;
+        }
+
+        .mobile-menu-links a:hover {
+            background: var(--cream);
+            color: var(--primary-gold);
+            padding-left: 2rem;
+        }
+
+        .mobile-menu-footer {
+            padding: 1.5rem;
+            border-top: 1px solid #eee;
+        }
+
+        .mobile-menu-footer p {
+            font-size: 0.9rem;
+            color: var(--text-medium);
+            margin-bottom: 1rem;
+        }
+
+        .mobile-lang-switcher {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .mobile-lang-switcher .lang-btn {
+            flex: 1;
         }
 
         /* Hero Section */
@@ -535,6 +653,44 @@
             color: var(--text-medium);
             line-height: 1.7;
             font-size: 0.95rem;
+        }
+
+        /* Menu Items List */
+        .menu-items-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .menu-items-list li {
+            padding: 0.8rem 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            color: var(--text-dark);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .menu-items-list li:last-child {
+            border-bottom: none;
+        }
+
+        .menu-item-number {
+            font-weight: 600;
+            color: var(--primary-gold);
+            margin-right: 0.3rem;
+        }
+
+        .vege-tag {
+            display: inline-block;
+            padding: 0.2rem 0.6rem;
+            background: var(--primary-green);
+            color: white;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-right: 0.4rem;
         }
 
         /* Full Menu Section */
@@ -914,41 +1070,31 @@
             .nav-phone-text {
                 font-size: 0.85rem;
             }
+        }
 
+        /* Tablet Breakpoint - Enhanced */
+        @media (max-width: 900px) {
+            .nav-menu {
+                display: none !important;
+            }
+
+            .mobile-toggle {
+                display: flex;
+                margin-left: auto;
+            }
+
+            .nav-phone-text {
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 768px) {
             .nav-container {
                 padding: 1rem 20px;
-                position: relative;
             }
 
             .nav-menu {
-                position: absolute;
-                top: 100%;
-                left: 0;
-                right: 0;
                 display: none;
-                flex-direction: column;
-                gap: 1rem;
-                margin: 0;
-                padding: 1.5rem 20px 2rem;
-                background: rgba(255, 255, 255, 0.97);
-                box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
-                border-radius: 12px;
-                align-items: flex-start;
-                z-index: 1000;
-            }
-
-            .nav-container.nav-open .nav-menu {
-                display: flex;
-            }
-
-            .nav-menu li {
-                width: 100%;
-            }
-
-            .nav-menu a {
-                width: 100%;
-                font-size: 1.05rem;
-                padding: 0.5rem 0;
             }
 
             .nav-right {
@@ -961,32 +1107,21 @@
                 font-size: 0.85rem;
             }
 
-            .mobile-toggle {
-                display: flex;
-                order: -1;
-                margin-right: 1rem;
-            }
-
-            .nav-lang {
-                margin-left: 0;
-                padding-top: 1rem;
-                border-top: 1px solid rgba(122, 139, 110, 0.2);
-                width: 100%;
-            }
-
-            .lang-switcher {
-                width: 100%;
-                justify-content: flex-start;
-            }
-        }
-
-        @media (max-width: 768px) {
             .nav-phone-text {
                 display: none;
             }
 
             .nav-phone-icon {
                 font-size: 1.2rem;
+            }
+
+            .lang-switcher {
+                display: none !important;
+            }
+
+            .mobile-toggle {
+                display: flex;
+                margin-left: auto;
             }
 
             h1 { font-size: 2.5rem; }
@@ -1040,38 +1175,26 @@
             outline: 3px solid var(--primary-gold);
             outline-offset: 3px;
         }
-
-        .mobile-toggle:focus,
-        .mobile-toggle:focus-visible {
-            outline: none;
-            box-shadow: none;
-        }
     </style>
 </head>
 <body>
     <!-- Header -->
     <header class="header">
         <nav class="nav-container">
-            <a href="#naslovna" class="logo-group">
+            <div class="logo-group">
                 <div class="logo-icon">🍽️</div>
                 <div class="logo-text">
                     <h1>Gablerica</h1>
                     <p>fino i ukusno</p>
                 </div>
-            </a>
+            </div>
             
-            <ul class="nav-menu" id="primary-navigation" aria-hidden="true">
-                <li><a href="#naslovna" data-i18n="nav.home">Naslovna</a></li>
-                <li><a href="#tjedni-specijaliteti" data-i18n="nav.specials">Tjedni Specijaliteti</a></li>
-                <li><a href="#meni" data-i18n="nav.menu">Meni</a></li>
-                <li><a href="#o-nama" data-i18n="nav.about">O Nama</a></li>
-                <li><a href="#kontakt" data-i18n="nav.contact">Kontakt</a></li>
-                <li class="nav-lang">
-                    <div class="lang-switcher">
-                        <button class="lang-btn active" data-lang="hr">HR</button>
-                        <button class="lang-btn" data-lang="en">EN</button>
-                    </div>
-                </li>
+            <ul class="nav-menu">
+                <li><a href="#naslovna">Naslovna</a></li>
+                <li><a href="#tjedni-specijaliteti">Tjedni Specijaliteti</a></li>
+                <li><a href="#meni">Meni</a></li>
+                <li><a href="#o-nama">O Nama</a></li>
+                <li><a href="#kontakt">Kontakt</a></li>
             </ul>
 
             <div class="nav-right">
@@ -1079,34 +1202,69 @@
                     <span class="nav-phone-icon">📞</span>
                     <span class="nav-phone-text">095 5356 267</span>
                 </a>
+
+                <div class="lang-switcher">
+                    <button class="lang-btn active">HR</button>
+                    <button class="lang-btn">EN</button>
+                </div>
             </div>
 
-            <button class="mobile-toggle" aria-controls="primary-navigation" aria-expanded="false">
+            <div class="mobile-toggle">
                 <span></span>
                 <span></span>
                 <span></span>
-            </button>
+            </div>
         </nav>
     </header>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu-overlay"></div>
+    
+    <!-- Mobile Menu Container -->
+    <div class="mobile-menu-container">
+        <div class="mobile-menu-header">
+            <div class="logo-icon">🍽️</div>
+            <h2>Gablerica</h2>
+        </div>
+        
+        <ul class="mobile-menu-links">
+            <li><a href="#naslovna" class="mobile-menu-link">Naslovna</a></li>
+            <li><a href="#tjedni-specijaliteti" class="mobile-menu-link">Tjedni Specijaliteti</a></li>
+            <li><a href="#meni" class="mobile-menu-link">Meni</a></li>
+            <li><a href="#o-nama" class="mobile-menu-link">O Nama</a></li>
+            <li><a href="#kontakt" class="mobile-menu-link">Kontakt</a></li>
+        </ul>
+        
+        <div class="mobile-menu-footer">
+            <p>Odaberite jezik:</p>
+            <div class="mobile-lang-switcher">
+                <button class="lang-btn active">Hrvatski</button>
+                <button class="lang-btn">English</button>
+            </div>
+        </div>
+    </div>
 
     <!-- Hero Section -->
     <section class="hero" id="naslovna">
         <div class="hero-container">
             <div class="hero-content">
-                <div class="hero-badge" data-i18n="hero.badge">
+                <div class="hero-badge">
                     ✨ Domaća Kuhinja
                 </div>
-                <h1 class="hero-title" data-i18n="hero.title" data-i18n-type="html">
+                <h1 class="hero-title">
                     Okus <span class="highlight">Tradicije</span><br>
                     u Svakom Zalogaju
                 </h1>
-                <p class="hero-subtitle" data-i18n="hero.subtitle">
+                <p class="hero-subtitle">
                     Topli obroci pripremljeni s ljubavlju, kao što bi napravila vaša baka. 
                     Svaki dan nova prilika za uživanje u autentičnim okusima domaće kuhinje.
                 </p>
                 <div class="hero-cta">
-                    <a href="tel:+385955356267" class="btn btn-primary" data-i18n="hero.cta">
+                    <a href="tel:+385955356267" class="btn btn-primary">
                         📞 Naruči Odmah
+                    </a>
+                    <a href="#tjedni-specijaliteti" class="btn btn-secondary">
+                        🍽️ Tjedni Specijaliteti
                     </a>
                 </div>
             </div>
@@ -1122,60 +1280,83 @@
     <section class="weekly-specials" id="tjedni-specijaliteti">
         <div class="section-container">
             <div class="section-header">
-                <span class="section-label" data-i18n="weekly.label">Tjedan 28.10 - 01.11.2024</span>
-                <h2 class="section-title" data-i18n="weekly.title">Tjedni Specijaliteti</h2>
-                <p class="section-description" data-i18n="weekly.description">
-                    Svaki dan donosi novu priliku za uživanje. Biramo najkvalitetnije sastojke 
-                    i pripremamo jela po tradicionalnim receptima.
+                <span class="section-label">Tjedni Meni</span>
+                <h2 class="section-title">Što Nudimo Ovaj Tjedan</h2>
+                <p class="section-description">
+                    Svaki dan nudimo tri ukusna jela pripremljena s ljubavlju. 
+                    Uključujemo i vegetarijansku opciju za sve koji preferiraju biljnu prehranu.
                 </p>
             </div>
 
             <div class="specials-grid">
-                <div class="special-card">
-                    <div class="special-image">🍖</div>
-                    <div class="special-content">
-                        <span class="day-tag" data-i18n="weekly.monday.day">Ponedjeljak</span>
-                        <h3 data-i18n="weekly.monday.title">Gulaš s Noklicama</h3>
-                        <p data-i18n="weekly.monday.text">
-                            Bogati gulaš od junetine, polagano kuhan s mješavinom aromatičnih začina. 
-                            Služi se s našim domaćim noklicama koje se tope u ustima.
-                        </p>
-                    </div>
-                </div>
-
-                <div class="special-card">
-                    <div class="special-image">🍲</div>
-                    <div class="special-content">
-                        <span class="day-tag" data-i18n="weekly.tuesday.day">Utorak</span>
-                        <h3 data-i18n="weekly.tuesday.title">Sarma od Kiselog Kupusa</h3>
-                        <p data-i18n="weekly.tuesday.text">
-                            Tradicionalna sarma pripremljena po receptu naših baka. Puna okusa i ljubavi, 
-                            služi se s kremastim pire krumpirom.
-                        </p>
-                    </div>
-                </div>
-
+                <!-- Ponedjeljak -->
                 <div class="special-card">
                     <div class="special-image">🍗</div>
                     <div class="special-content">
-                        <span class="day-tag" data-i18n="weekly.wednesday.day">Srijeda</span>
-                        <h3 data-i18n="weekly.wednesday.title">Pečena Piletina</h3>
-                        <p data-i18n="weekly.wednesday.text">
-                            Sočna piletina s hrskavom koricom, aromatični pečeni krumpir začinjen ružmarinom, 
-                            i svježa sezonska salata.
-                        </p>
+                        <span class="day-tag">Ponedjeljak</span>
+                        <h3>Dnevna Ponuda</h3>
+                        <ul class="menu-items-list">
+                            <li><span class="menu-item-number">1.</span> Puretina sa rižom i povrćem iz woka</li>
+                            <li><span class="menu-item-number">2.</span> Pileći krumpir paprikaš sa noklicama</li>
+                            <li><span class="vege-tag">🌱 VEGE</span> Pohani karfiol i krumpirići</li>
+                        </ul>
                     </div>
                 </div>
 
+                <!-- Utorak -->
+                <div class="special-card">
+                    <div class="special-image">🍝</div>
+                    <div class="special-content">
+                        <span class="day-tag">Utorak</span>
+                        <h3>Dnevna Ponuda</h3>
+                        <ul class="menu-items-list">
+                            <li><span class="menu-item-number">1.</span> Okruglice od mljevenog mesa u umaku od rajčice i palenta</li>
+                            <li><span class="menu-item-number">2.</span> Piletina sa šampinjonima u bijelom umaku i njoki, salata</li>
+                            <li><span class="vege-tag">🌱 VEGE</span> Tortilje punjene povrćem i sirom</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Srijeda -->
                 <div class="special-card">
                     <div class="special-image">🥘</div>
                     <div class="special-content">
-                        <span class="day-tag" data-i18n="weekly.thursday.day">Četvrtak</span>
-                        <h3 data-i18n="weekly.thursday.title">Punjene Paprike</h3>
-                        <p data-i18n="weekly.thursday.text">
-                            Paprike punjene mesom i rižom, kuhane u domaćem umaku od rajčice. 
-                            Klasik koji osvaja srca već generacijama.
-                        </p>
+                        <span class="day-tag">Srijeda</span>
+                        <h3>Dnevna Ponuda</h3>
+                        <ul class="menu-items-list">
+                            <li><span class="menu-item-number">1.</span> Slatki kupus varivo, faširke</li>
+                            <li><span class="menu-item-number">2.</span> Grill piletina u finom umaku od povrća, pire krumpir, salata</li>
+                            <li><span class="vege-tag">🌱 VEGE</span> Veganski popečci od povrća, krumpirići</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Četvrtak -->
+                <div class="special-card">
+                    <div class="special-image">🍖</div>
+                    <div class="special-content">
+                        <span class="day-tag">Četvrtak</span>
+                        <h3>Dnevna Ponuda</h3>
+                        <ul class="menu-items-list">
+                            <li><span class="menu-item-number">1.</span> Pileći odrezak u cornefleaksu, duved riža, salata</li>
+                            <li><span class="menu-item-number">2.</span> Fino varivo od povrća, bečki odrezak</li>
+                            <li><span class="vege-tag">🌱 VEGE</span> Fini gulaš od gljiva sa rižom</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Petak -->
+                <div class="special-card">
+                    <div class="special-image">🐟</div>
+                    <div class="special-content">
+                        <span class="day-tag">Petak</span>
+                        <h3>Dnevna Ponuda</h3>
+                        <ul class="menu-items-list">
+                            <li><span class="menu-item-number">1.</span> Pohani oslić i kremasti špinat sa krumpirom</li>
+                            <li><span class="menu-item-number">2.</span> Girice i pommes sa tartarom</li>
+                            <li><span class="menu-item-number">3.</span> Zagrebački odrezak punjen šunkom i sirom, krumpirići, salata</li>
+                            <li><span class="vege-tag">🌱 VEGE</span> Knedle sa šljivama i vrhnjem</li>
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -1186,9 +1367,9 @@
     <section class="full-menu" id="meni">
         <div class="section-container">
             <div class="section-header">
-                <span class="section-label" data-i18n="menu.label">Naša Ponuda</span>
-                <h2 class="section-title" data-i18n="menu.title">Stalni Meni</h2>
-                <p class="section-description" data-i18n="menu.description">
+                <span class="section-label">Naša Ponuda</span>
+                <h2 class="section-title">Stalni Meni</h2>
+                <p class="section-description">
                     Ovdje ćemo prikazati kompletnu ponudu naših jela kada dobijemo sve detalje.
                 </p>
             </div>
@@ -1196,8 +1377,8 @@
             <!-- Placeholder until client sends menu -->
             <div class="menu-placeholder">
                 <div class="menu-placeholder-icon">📋</div>
-                <h3 data-i18n="menu.placeholder.title">Meni u Pripremi</h3>
-                <p data-i18n="menu.placeholder.text">
+                <h3>Meni u Pripremi</h3>
+                <p>
                     Naš kompletni meni bit će dostupan uskoro. Trenutno radimo na detaljnom opisu 
                     svih naših jela, cijena i alergena. U međuvremenu, pregledajte naše tjedne 
                     specijalitete ili nas kontaktirajte direktno!
@@ -1262,16 +1443,16 @@
                 </div>
             </div>
             <div class="about-content">
-                <h2 data-i18n="about.title">Naša Priča</h2>
-                <p data-i18n="about.paragraph1">
+                <h2>Naša Priča</h2>
+                <p>
                     Gablerica nije samo mjesto gdje možete naručiti obrok - mi smo mjesto gdje se 
                     tradicija, kvaliteta i ljubav prema hrani stapaju u savršenu harmoniju.
                 </p>
-                <p data-i18n="about.paragraph2">
+                <p>
                     Svaki obrok pripremamo s istom pažnjom i strašću kao da kuhamo za našu obitelj. 
                     Koristimo samo najkvalitetnije sastojke i recepte koji su se prenosili kroz generacije.
                 </p>
-                <p data-i18n="about.paragraph3">
+                <p>
                     Naša misija je jednostavna: donijeti vam okuse koji bude najljepše uspomene i 
                     stvaraju nove trenutke radosti oko stola.
                 </p>
@@ -1280,29 +1461,29 @@
                     <div class="feature-item">
                         <span class="feature-icon">👨‍🍳</span>
                         <div class="feature-text">
-                            <h4 data-i18n="about.feature1.title">Iskusni Kuhari</h4>
-                            <p data-i18n="about.feature1.text">Tim stručnjaka s ljubavlju prema tradiciji</p>
+                            <h4>Iskusni Kuhari</h4>
+                            <p>Tim stručnjaka s ljubavlju prema tradiciji</p>
                         </div>
                     </div>
                     <div class="feature-item">
                         <span class="feature-icon">🌿</span>
                         <div class="feature-text">
-                            <h4 data-i18n="about.feature2.title">Svježi Sastojci</h4>
-                            <p data-i18n="about.feature2.text">Samo najbolje, uvijek svježe</p>
+                            <h4>Svježi Sastojci</h4>
+                            <p>Samo najbolje, uvijek svježe</p>
                         </div>
                     </div>
                     <div class="feature-item">
                         <span class="feature-icon">🏡</span>
                         <div class="feature-text">
-                            <h4 data-i18n="about.feature3.title">Domaća Atmosfera</h4>
-                            <p data-i18n="about.feature3.text">Kao kod kuće, ali bolje</p>
+                            <h4>Domaća Atmosfera</h4>
+                            <p>Kao kod kuće, ali bolje</p>
                         </div>
                     </div>
                     <div class="feature-item">
                         <span class="feature-icon">⭐</span>
                         <div class="feature-text">
-                            <h4 data-i18n="about.feature4.title">Zadovoljni Kupci</h4>
-                            <p data-i18n="about.feature4.text">Vaše povjerenje je naša nagrada</p>
+                            <h4>Zadovoljni Kupci</h4>
+                            <p>Vaše povjerenje je naša nagrada</p>
                         </div>
                     </div>
                 </div>
@@ -1314,14 +1495,14 @@
     <section class="contact" id="kontakt">
         <div class="contact-container">
             <div class="contact-header">
-                <h2 data-i18n="contact.title">Kontaktirajte Nas</h2>
-                <p data-i18n="contact.subtitle">Spremni smo odgovoriti na sva vaša pitanja i primiti narudžbe</p>
+                <h2>Kontaktirajte Nas</h2>
+                <p>Spremni smo odgovoriti na sva vaša pitanja i primiti narudžbe</p>
             </div>
 
             <div class="contact-grid">
                 <div class="contact-card">
                     <span class="contact-icon">📞</span>
-                    <h3 data-i18n="contact.phone.title">Telefon</h3>
+                    <h3>Telefon</h3>
                     <div class="phone-buttons">
                         <a href="tel:+385955356267" class="phone-btn">+385 95 5356 267</a>
                         <a href="tel:+385989505151" class="phone-btn">+385 98 9505 151</a>
@@ -1330,8 +1511,8 @@
 
                 <div class="contact-card">
                     <span class="contact-icon">📍</span>
-                    <h3 data-i18n="contact.location.title">Lokacija</h3>
-                    <p data-i18n="contact.location.text" data-i18n-type="html">
+                    <h3>Lokacija</h3>
+                    <p>
                         Kralja Petra Svačića 7a<br>
                         31000 Osijek<br>
                         Hrvatska
@@ -1340,7 +1521,7 @@
 
                 <div class="contact-card">
                     <span class="contact-icon">✉️</span>
-                    <h3 data-i18n="contact.email.title">Email</h3>
+                    <h3>Email</h3>
                     <p>
                         <a href="mailto:gablerica.os@gablerica.com">
                             gablerica.os@gablerica.com
@@ -1353,8 +1534,8 @@
             <div class="map-section">
                 <div class="map-container">
                     <div class="map-header">
-                        <h3 data-i18n="contact.map.title">📍 Posjetite Nas</h3>
-                        <p data-i18n="contact.map.subtitle">Kralja Petra Svačića 7a, Osijek</p>
+                        <h3>📍 Posjetite Nas</h3>
+                        <p>Kralja Petra Svačića 7a, Osijek</p>
                     </div>
                     <iframe 
                         class="map-embed"
@@ -1371,13 +1552,13 @@
     <!-- Footer -->
     <footer class="footer">
         <div class="footer-content">
-            <p>&copy; <span class="js-current-year">2025</span> <span data-i18n="footer.copy">Gablerica - Domaća Kuhinja. Sva prava pridržana.</span></p>
+            <p>&copy; 2024 Gablerica - Domaća Kuhinja. Sva prava pridržana.</p>
             <div class="footer-links">
-                <a href="https://www.facebook.com/profile.php?id=61582791505858" target="_blank" data-i18n="footer.facebook">Facebook</a>
-                <a href="#naslovna" data-i18n="footer.home">Naslovna</a>
-                <a href="#tjedni-meni" data-i18n="footer.menu">Tjedni Meni</a>
-                <a href="#o-nama" data-i18n="footer.about">O Nama</a>
-                <a href="#kontakt" data-i18n="footer.contact">Kontakt</a>
+                <a href="https://www.facebook.com/profile.php?id=61582791505858" target="_blank">Facebook</a>
+                <a href="#naslovna">Naslovna</a>
+                <a href="#tjedni-meni">Tjedni Meni</a>
+                <a href="#o-nama">O Nama</a>
+                <a href="#kontakt">Kontakt</a>
             </div>
         </div>
     </footer>
@@ -1399,248 +1580,58 @@
 
         // Mobile menu toggle
         const mobileToggle = document.querySelector('.mobile-toggle');
-        const navMenu = document.querySelector('.nav-menu');
-        const navContainer = document.querySelector('.nav-container');
+        const mobileMenuOverlay = document.querySelector('.mobile-menu-overlay');
+        const mobileMenuContainer = document.querySelector('.mobile-menu-container');
+        const mobileMenuLinks = document.querySelectorAll('.mobile-menu-link');
         
-        if (mobileToggle && navMenu && navContainer) {
-            const navLinks = navMenu.querySelectorAll('a');
-
-            const breakpoint = 1024;
-
-            const setNavState = isOpen => {
-                if (isOpen) {
-                    navContainer.classList.add('nav-open');
-                } else {
-                    navContainer.classList.remove('nav-open');
-                }
-                mobileToggle.setAttribute('aria-expanded', isOpen.toString());
-                navMenu.setAttribute('aria-hidden', (!isOpen).toString());
-            };
-
-            const updateNavAccessibility = () => {
-                if (window.innerWidth > breakpoint) {
-                    navMenu.setAttribute('aria-hidden', 'false');
-                    mobileToggle.setAttribute('aria-expanded', 'false');
-                    navContainer.classList.remove('nav-open');
-                } else {
-                    const isOpen = navContainer.classList.contains('nav-open');
-                    navMenu.setAttribute('aria-hidden', (!isOpen).toString());
-                    mobileToggle.setAttribute('aria-expanded', isOpen.toString());
-                }
-            };
-
-            updateNavAccessibility();
-
+        // Function to open mobile menu
+        function openMobileMenu() {
+            mobileToggle.classList.add('active');
+            mobileMenuOverlay.classList.add('active');
+            mobileMenuContainer.classList.add('active');
+            document.body.style.overflow = 'hidden'; // Prevent scrolling when menu is open
+        }
+        
+        // Function to close mobile menu
+        function closeMobileMenu() {
+            mobileToggle.classList.remove('active');
+            mobileMenuOverlay.classList.remove('active');
+            mobileMenuContainer.classList.remove('active');
+            document.body.style.overflow = ''; // Restore scrolling
+        }
+        
+        // Toggle mobile menu on button click
+        if (mobileToggle) {
             mobileToggle.addEventListener('click', () => {
-                const willOpen = !navContainer.classList.contains('nav-open');
-                setNavState(willOpen);
-            });
-
-            navLinks.forEach(link => {
-                link.addEventListener('click', () => {
-                    if (window.innerWidth <= breakpoint && navContainer.classList.contains('nav-open')) {
-                        setNavState(false);
-                    }
-                });
-            });
-
-            let touchStartY = null;
-            let touchStartX = null;
-
-            const handleTouchStart = event => {
-                if (!navContainer.classList.contains('nav-open')) return;
-                const touch = event.touches[0];
-                touchStartY = touch.clientY;
-                touchStartX = touch.clientX;
-            };
-
-            const handleTouchEnd = event => {
-                if (!navContainer.classList.contains('nav-open') || touchStartY === null) return;
-                const touch = event.changedTouches[0];
-                const deltaY = touchStartY - touch.clientY;
-                const deltaX = Math.abs(touchStartX - touch.clientX);
-
-                if (deltaY > 50 && deltaY > deltaX) {
-                    setNavState(false);
-                }
-
-                touchStartY = null;
-                touchStartX = null;
-            };
-
-            navMenu.addEventListener('touchstart', handleTouchStart, { passive: true });
-            navMenu.addEventListener('touchend', handleTouchEnd, { passive: true });
-
-            window.addEventListener('resize', updateNavAccessibility);
-        }
-
-        const translations = {
-            hr: {
-                "nav.home": "Naslovna",
-                "nav.specials": "Tjedni Specijaliteti",
-                "nav.menu": "Meni",
-                "nav.about": "O Nama",
-                "nav.contact": "Kontakt",
-                "hero.badge": "✨ Domaća Kuhinja",
-                "hero.title": "Okus <span class=\"highlight\">Tradicije</span><br> u Svakom Zalogaju",
-                "hero.subtitle": "Topli obroci pripremljeni s ljubavlju, kao što bi napravila vaša baka. Svaki dan nova prilika za uživanje u autentičnim okusima domaće kuhinje.",
-                "hero.cta": "📞 Naruči Odmah",
-                "weekly.label": "Tjedan 28.10 - 01.11.2024",
-                "weekly.title": "Tjedni Specijaliteti",
-                "weekly.description": "Svaki dan donosi novu priliku za uživanje. Biramo najkvalitetnije sastojke i pripremamo jela po tradicionalnim receptima.",
-                "weekly.monday.day": "Ponedjeljak",
-                "weekly.monday.title": "Gulaš s Noklicama",
-                "weekly.monday.text": "Bogati gulaš od junetine, polagano kuhan s mješavinom aromatičnih začina. Služi se s našim domaćim noklicama koje se tope u ustima.",
-                "weekly.tuesday.day": "Utorak",
-                "weekly.tuesday.title": "Sarma od Kiselog Kupusa",
-                "weekly.tuesday.text": "Tradicionalna sarma pripremljena po receptu naših baka. Puna okusa i ljubavi, služi se s kremastim pire krumpirom.",
-                "weekly.wednesday.day": "Srijeda",
-                "weekly.wednesday.title": "Pečena Piletina",
-                "weekly.wednesday.text": "Sočna piletina s hrskavom koricom, aromatični pečeni krumpir začinjen ružmarinom i svježa sezonska salata.",
-                "weekly.thursday.day": "Četvrtak",
-                "weekly.thursday.title": "Punjene Paprike",
-                "weekly.thursday.text": "Paprike punjene mesom i rižom, kuhane u domaćem umaku od rajčice. Klasik koji osvaja srca već generacijama.",
-                "menu.label": "Naša Ponuda",
-                "menu.title": "Stalni Meni",
-                "menu.description": "Ovdje ćemo prikazati kompletnu ponudu naših jela kada dobijemo sve detalje.",
-                "menu.placeholder.title": "Meni u Pripremi",
-                "menu.placeholder.text": "Naš kompletni meni bit će dostupan uskoro. Trenutno radimo na detaljnom opisu svih naših jela, cijena i alergena. U međuvremenu, pregledajte naše tjedne specijalitete ili nas kontaktirajte direktno!",
-                "about.title": "Naša Priča",
-                "about.paragraph1": "Gablerica nije samo mjesto gdje možete naručiti obrok - mi smo mjesto gdje se tradicija, kvaliteta i ljubav prema hrani stapaju u savršenu harmoniju.",
-                "about.paragraph2": "Svaki obrok pripremamo s istom pažnjom i strašću kao da kuhamo za našu obitelj. Koristimo samo najkvalitetnije sastojke i recepte koji su se prenosili kroz generacije.",
-                "about.paragraph3": "Naša misija je jednostavna: donijeti vam okuse koji bude najljepše uspomene i stvaraju nove trenutke radosti oko stola.",
-                "about.feature1.title": "Iskusni Kuhari",
-                "about.feature1.text": "Tim stručnjaka s ljubavlju prema tradiciji",
-                "about.feature2.title": "Svježi Sastojci",
-                "about.feature2.text": "Samo najbolje, uvijek svježe",
-                "about.feature3.title": "Domaća Atmosfera",
-                "about.feature3.text": "Kao kod kuće, ali bolje",
-                "about.feature4.title": "Zadovoljni Kupci",
-                "about.feature4.text": "Vaše povjerenje je naša nagrada",
-                "contact.title": "Kontaktirajte Nas",
-                "contact.subtitle": "Spremni smo odgovoriti na sva vaša pitanja i primiti narudžbe",
-                "contact.phone.title": "Telefon",
-                "contact.location.title": "Lokacija",
-                "contact.location.text": "Kralja Petra Svačića 7a<br>31000 Osijek<br>Hrvatska",
-                "contact.email.title": "Email",
-                "contact.map.title": "📍 Posjetite Nas",
-                "contact.map.subtitle": "Kralja Petra Svačića 7a, Osijek",
-                "footer.copy": "Gablerica - Domaća Kuhinja. Sva prava pridržana.",
-                "footer.facebook": "Facebook",
-                "footer.home": "Naslovna",
-                "footer.menu": "Tjedni Meni",
-                "footer.about": "O Nama",
-                "footer.contact": "Kontakt"
-            },
-            en: {
-                "nav.home": "Home",
-                "nav.specials": "Weekly Specials",
-                "nav.menu": "Menu",
-                "nav.about": "About Us",
-                "nav.contact": "Contact",
-                "hero.badge": "✨ Homemade Cuisine",
-                "hero.title": "Taste of <span class=\"highlight\">Tradition</span><br> in Every Bite",
-                "hero.subtitle": "Warm meals prepared with love, just like your grandmother would make. Every day is a new chance to enjoy authentic home-cooked flavors.",
-                "hero.cta": "📞 Order Now",
-                "weekly.label": "Week 28.10 - 01.11.2024",
-                "weekly.title": "Weekly Specials",
-                "weekly.description": "Every day is a new opportunity to indulge. We select the finest ingredients and prepare dishes following traditional recipes.",
-                "weekly.monday.day": "Monday",
-                "weekly.monday.title": "Beef Goulash with Dumplings",
-                "weekly.monday.text": "Rich beef goulash slowly cooked with aromatic spices, served with our homemade dumplings that melt in your mouth.",
-                "weekly.tuesday.day": "Tuesday",
-                "weekly.tuesday.title": "Cabbage Rolls (Sarma)",
-                "weekly.tuesday.text": "Traditional cabbage rolls prepared to our grandma's recipe, served with creamy mashed potatoes.",
-                "weekly.wednesday.day": "Wednesday",
-                "weekly.wednesday.title": "Roasted Chicken",
-                "weekly.wednesday.text": "Juicy chicken with crispy skin, aromatic roasted potatoes seasoned with rosemary, and a fresh seasonal salad.",
-                "weekly.thursday.day": "Thursday",
-                "weekly.thursday.title": "Stuffed Peppers",
-                "weekly.thursday.text": "Peppers filled with meat and rice, simmered in a homemade tomato sauce. A classic that has been winning hearts for generations.",
-                "menu.label": "Our Offer",
-                "menu.title": "Regular Menu",
-                "menu.description": "We will showcase our full selection of dishes as soon as we receive all the details.",
-                "menu.placeholder.title": "Menu in Preparation",
-                "menu.placeholder.text": "Our complete menu will be available soon. We are crafting detailed descriptions of every dish, pricing, and allergens. In the meantime, explore our weekly specials or contact us directly!",
-                "about.title": "Our Story",
-                "about.paragraph1": "Gablerica is more than a place to order a meal—we are where tradition, quality, and a love for food come together in perfect harmony.",
-                "about.paragraph2": "We prepare every meal with the same care and passion as if we were cooking for our own family. We use only the highest-quality ingredients and recipes passed down through generations.",
-                "about.paragraph3": "Our mission is simple: to bring you flavors that awaken your fondest memories and create new joyful moments around the table.",
-                "about.feature1.title": "Experienced Chefs",
-                "about.feature1.text": "A team of experts with a passion for tradition",
-                "about.feature2.title": "Fresh Ingredients",
-                "about.feature2.text": "Only the best, always fresh",
-                "about.feature3.title": "Homely Atmosphere",
-                "about.feature3.text": "Like being at home, only better",
-                "about.feature4.title": "Happy Customers",
-                "about.feature4.text": "Your trust is our greatest reward",
-                "contact.title": "Contact Us",
-                "contact.subtitle": "We are ready to answer all your questions and take orders",
-                "contact.phone.title": "Phone",
-                "contact.location.title": "Location",
-                "contact.location.text": "Kralja Petra Svačića 7a<br>31000 Osijek<br>Croatia",
-                "contact.email.title": "Email",
-                "contact.map.title": "📍 Visit Us",
-                "contact.map.subtitle": "Kralja Petra Svačića 7a, Osijek",
-                "footer.copy": "Gablerica - Homemade Cuisine. All rights reserved.",
-                "footer.facebook": "Facebook",
-                "footer.home": "Home",
-                "footer.menu": "Weekly Menu",
-                "footer.about": "About",
-                "footer.contact": "Contact"
-            }
-        };
-
-        const applyTranslations = lang => {
-            const locale = translations[lang];
-            if (!locale) return;
-
-            document.querySelectorAll("[data-i18n]").forEach(element => {
-                const key = element.getAttribute("data-i18n");
-                const value = locale[key];
-                if (!value) return;
-
-                if (element.dataset.i18nType === "html") {
-                    element.innerHTML = value;
+                if (mobileMenuContainer.classList.contains('active')) {
+                    closeMobileMenu();
                 } else {
-                    element.textContent = value;
+                    openMobileMenu();
                 }
             });
-
-            document.documentElement.lang = lang;
-        };
-
-        const langButtons = document.querySelectorAll(".lang-btn");
-        let currentLanguage = "hr";
-
-        const setLanguage = lang => {
-            if (!translations[lang] || lang === currentLanguage) return;
-            currentLanguage = lang;
-            applyTranslations(lang);
-            langButtons.forEach(button => {
-                button.classList.toggle("active", button.dataset.lang === lang);
-            });
-        };
-
-        langButtons.forEach(button => {
-            button.addEventListener("click", () => {
-                const lang = button.dataset.lang;
-                if (lang) {
-                    setLanguage(lang);
-                }
-            });
-        });
-
-        applyTranslations(currentLanguage);
-        langButtons.forEach(button => {
-            button.classList.toggle("active", button.dataset.lang === currentLanguage);
-        });
-
-        // Footer year
-        const yearElement = document.querySelector('.js-current-year');
-        if (yearElement) {
-            yearElement.textContent = new Date().getFullYear();
         }
+        
+        // Close mobile menu when clicking overlay
+        if (mobileMenuOverlay) {
+            mobileMenuOverlay.addEventListener('click', closeMobileMenu);
+        }
+        
+        // Close mobile menu when clicking a link
+        mobileMenuLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                closeMobileMenu();
+            });
+        });
+
+        // Language switcher functionality (placeholder)
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                // Here you would implement actual language switching
+                console.log('Language switched to:', this.textContent);
+            });
+        });
 
         // Add scroll effect to header
         let lastScroll = 0;
