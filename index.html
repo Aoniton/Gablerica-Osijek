@@ -108,6 +108,13 @@
             gap: 1rem;
             flex-shrink: 0;
             min-width: 200px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: opacity 0.3s ease;
+        }
+
+        .logo-group:hover {
+            opacity: 0.8;
         }
 
         .logo-icon {
@@ -579,8 +586,22 @@
         /* Bento Grid Layout - Modern 2025 Trend */
         .specials-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            grid-template-columns: repeat(3, 1fr);
             gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Position Thursday between Monday and Tuesday */
+        .special-card:nth-child(4) {
+            grid-column: 1 / 2;
+            margin-left: 50%;
+        }
+
+        /* Position Friday between Tuesday and Wednesday */
+        .special-card:nth-child(5) {
+            grid-column: 2 / 3;
+            margin-left: 50%;
         }
 
         .special-card {
@@ -1070,6 +1091,18 @@
             .nav-phone-text {
                 font-size: 0.85rem;
             }
+
+            /* Tablet: 2-column layout for menu cards */
+            .specials-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            /* Reset special positioning on tablet */
+            .special-card:nth-child(4),
+            .special-card:nth-child(5) {
+                margin-left: 0;
+                grid-column: auto;
+            }
         }
 
         /* Tablet Breakpoint - Enhanced */
@@ -1144,6 +1177,13 @@
                 grid-template-columns: 1fr;
             }
 
+            /* Reset card positioning on mobile */
+            .special-card:nth-child(4),
+            .special-card:nth-child(5) {
+                margin-left: 0;
+                grid-column: auto;
+            }
+
             .contact-grid {
                 grid-template-columns: 1fr;
             }
@@ -1181,13 +1221,13 @@
     <!-- Header -->
     <header class="header">
         <nav class="nav-container">
-            <div class="logo-group">
+            <a href="#naslovna" class="logo-group">
                 <div class="logo-icon">🍽️</div>
                 <div class="logo-text">
                     <h1>Gablerica</h1>
                     <p>fino i ukusno</p>
                 </div>
-            </div>
+            </a>
             
             <ul class="nav-menu">
                 <li><a href="#naslovna">Naslovna</a></li>
@@ -1338,7 +1378,7 @@
                         <span class="day-tag">Četvrtak</span>
                         <h3>Dnevna Ponuda</h3>
                         <ul class="menu-items-list">
-                            <li><span class="menu-item-number">1.</span> Pileći odrezak u cornefleaksu, duved riža, salata</li>
+                            <li><span class="menu-item-number">1.</span> Pileći odrezak u cornefleaksu, đuveđ riža, salata</li>
                             <li><span class="menu-item-number">2.</span> Fino varivo od povrća, bečki odrezak</li>
                             <li><span class="vege-tag">🌱 VEGE</span> Fini gulaš od gljiva sa rižom</li>
                         </ul>
@@ -1552,11 +1592,12 @@
     <!-- Footer -->
     <footer class="footer">
         <div class="footer-content">
-            <p>&copy; 2024 Gablerica - Domaća Kuhinja. Sva prava pridržana.</p>
+            <p>&copy; <span id="current-year">2024</span> Gablerica - Domaća Kuhinja. Sva prava pridržana.</p>
             <div class="footer-links">
                 <a href="https://www.facebook.com/profile.php?id=61582791505858" target="_blank">Facebook</a>
                 <a href="#naslovna">Naslovna</a>
-                <a href="#tjedni-meni">Tjedni Meni</a>
+                <a href="#tjedni-specijaliteti">Tjedni Specijaliteti</a>
+                <a href="#meni">Meni</a>
                 <a href="#o-nama">O Nama</a>
                 <a href="#kontakt">Kontakt</a>
             </div>
@@ -1564,6 +1605,9 @@
     </footer>
 
     <script>
+        // Auto-update footer year
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
         // Smooth scroll behavior
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
